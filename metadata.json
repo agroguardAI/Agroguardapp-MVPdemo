@@ -1,9 +1,0 @@
-{
-  "name": "AgroGuard AI",
-  "description": "AI-powered pest and disease identification for farmers.",
-  "requestFramePermissions": [
-    "camera",
-    "microphone",
-    "geolocation"
-  ]
-}
