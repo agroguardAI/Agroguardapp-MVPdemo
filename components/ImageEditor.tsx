@@ -42,12 +42,12 @@ const ImageEditor: React.FC<Props> = ({ lang }) => {
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto bg-white/95 backdrop-blur rounded-2xl shadow-2xl overflow-hidden p-6 animate-slide-up">
+    <div className="w-full max-w-4xl mx-auto bg-white/95 dark:bg-gray-800/95 backdrop-blur rounded-2xl shadow-2xl overflow-hidden p-6 animate-slide-up border border-gray-200 dark:border-white/20">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
+        <h2 className="text-2xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
           <EditIcon /> {t.editorTitle}
         </h2>
-        <button onClick={() => setFile(null)} className="text-gray-500 hover:text-gray-700 text-sm">
+        <button onClick={() => setFile(null)} className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 text-sm">
           {t.uploadTitle}
         </button>
       </div>
@@ -55,36 +55,36 @@ const ImageEditor: React.FC<Props> = ({ lang }) => {
       <div className="grid md:grid-cols-2 gap-8">
         {/* Original */}
         <div className="space-y-2">
-          <p className="text-sm font-medium text-gray-500">{t.original}</p>
-          <div className="aspect-square bg-gray-100 rounded-xl overflow-hidden">
+          <p className="text-sm font-medium text-gray-500 dark:text-gray-400">{t.original}</p>
+          <div className="aspect-square bg-gray-100 dark:bg-gray-700 rounded-xl overflow-hidden">
             <img src={previewUrl!} alt="Original" className="w-full h-full object-cover" />
           </div>
         </div>
 
         {/* Result */}
         <div className="space-y-2">
-          <p className="text-sm font-medium text-gray-500">{t.simulationResult}</p>
-          <div className="aspect-square bg-gray-100 rounded-xl overflow-hidden flex items-center justify-center border-2 border-dashed border-gray-200 relative">
+          <p className="text-sm font-medium text-gray-500 dark:text-gray-400">{t.simulationResult}</p>
+          <div className="aspect-square bg-gray-100 dark:bg-gray-700 rounded-xl overflow-hidden flex items-center justify-center border-2 border-dashed border-gray-200 dark:border-gray-600 relative">
              {loading ? (
                <div className="animate-spin text-[#667eea]"><RefreshCwIcon /></div>
              ) : editedUrl ? (
                <img src={editedUrl} alt="Edited" className="w-full h-full object-cover" />
              ) : (
-               <p className="text-gray-400 text-sm">Result will appear here</p>
+               <p className="text-gray-400 dark:text-gray-500 text-sm">Result will appear here</p>
              )}
           </div>
         </div>
       </div>
 
       <div className="mt-8">
-        <label className="block text-sm font-medium text-gray-700 mb-2">{t.magicPrompt}</label>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t.magicPrompt}</label>
         <div className="flex gap-2">
           <input
             type="text"
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
             placeholder="e.g., Show healthy maize leaves, Remove the background"
-            className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#667eea] outline-none text-gray-800"
+            className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-[#667eea] outline-none text-gray-800 dark:text-white bg-white dark:bg-gray-700"
           />
           <button
             onClick={handleEdit}

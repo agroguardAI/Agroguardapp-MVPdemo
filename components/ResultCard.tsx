@@ -20,10 +20,10 @@ const ResultCard: React.FC<ResultCardProps> = ({ result, imageUrl, onReset, lang
 
   const getSeverityColor = (severity: string) => {
     switch (severity.toLowerCase()) {
-      case 'high': return 'bg-red-100 text-red-800 border-red-200';
-      case 'medium': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'low': return 'bg-green-100 text-green-800 border-green-200';
-      default: return 'bg-gray-100 text-gray-800 border-gray-200';
+      case 'high': return 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200 border-red-200 dark:border-red-800';
+      case 'medium': return 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200 border-yellow-200 dark:border-yellow-800';
+      case 'low': return 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 border-green-200 dark:border-green-800';
+      default: return 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border-gray-200 dark:border-gray-600';
     }
   };
 
@@ -77,7 +77,7 @@ const ResultCard: React.FC<ResultCardProps> = ({ result, imageUrl, onReset, lang
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto bg-white/95 backdrop-blur rounded-2xl shadow-2xl overflow-hidden animate-slide-up pb-20 lg:pb-0">
+    <div className="w-full max-w-2xl mx-auto bg-white/95 dark:bg-gray-800/95 backdrop-blur rounded-2xl shadow-2xl overflow-hidden animate-slide-up pb-20 lg:pb-0 border border-gray-200 dark:border-gray-700">
       
       {/* Header / Image Section */}
       <div className="relative h-64 sm:h-72 w-full overflow-hidden">
@@ -113,14 +113,14 @@ const ResultCard: React.FC<ResultCardProps> = ({ result, imageUrl, onReset, lang
         
         {/* Diagnosis */}
         <div className="space-y-3">
-          <div className="flex items-center gap-2 text-gray-800 font-bold text-lg border-b border-gray-100 pb-2">
+          <div className="flex items-center gap-2 text-gray-800 dark:text-gray-200 font-bold text-lg border-b border-gray-100 dark:border-gray-700 pb-2">
             <AlertTriangleIcon />
             <h3>{t.diagnosisTitle}</h3>
           </div>
-          <p className="text-gray-600 leading-relaxed">{result.description}</p>
+          <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{result.description}</p>
           <div className="flex flex-wrap gap-2 mt-2">
             {result.symptoms.map((symptom, idx) => (
-              <span key={idx} className="px-3 py-1 bg-gray-100 text-gray-600 rounded-lg text-sm">
+              <span key={idx} className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-lg text-sm">
                 • {symptom}
               </span>
             ))}
@@ -129,13 +129,13 @@ const ResultCard: React.FC<ResultCardProps> = ({ result, imageUrl, onReset, lang
 
         {/* Treatment */}
         <div className="space-y-3">
-          <div className="flex items-center gap-2 text-[#667eea] font-bold text-lg border-b border-gray-100 pb-2">
+          <div className="flex items-center gap-2 text-[#667eea] font-bold text-lg border-b border-gray-100 dark:border-gray-700 pb-2">
             <CheckCircleIcon />
             <h3>{t.treatmentTitle}</h3>
           </div>
           <ul className="space-y-3">
             {result.treatments.map((treatment, idx) => (
-              <li key={idx} className="flex items-start gap-3 p-3 rounded-xl bg-indigo-50/50 border border-indigo-100 text-gray-700 text-sm">
+              <li key={idx} className="flex items-start gap-3 p-3 rounded-xl bg-indigo-50/50 dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-800 text-gray-700 dark:text-gray-300 text-sm">
                 <span className="flex-shrink-0 w-6 h-6 bg-[#667eea] text-white rounded-full flex items-center justify-center text-xs font-bold mt-0.5">
                   {idx + 1}
                 </span>
@@ -147,10 +147,10 @@ const ResultCard: React.FC<ResultCardProps> = ({ result, imageUrl, onReset, lang
 
         {/* Prevention */}
         <div className="space-y-3">
-          <h3 className="font-bold text-gray-800 text-sm uppercase tracking-wide text-xs mb-2">{t.preventionTitle}</h3>
+          <h3 className="font-bold text-gray-800 dark:text-gray-200 text-sm uppercase tracking-wide text-xs mb-2">{t.preventionTitle}</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {result.prevention.map((tip, idx) => (
-              <div key={idx} className="p-3 bg-green-50 border border-green-100 rounded-lg text-sm text-green-800">
+              <div key={idx} className="p-3 bg-green-50 dark:bg-green-900/20 border border-green-100 dark:border-green-800 rounded-lg text-sm text-green-800 dark:text-green-200">
                 {tip}
               </div>
             ))}
@@ -158,17 +158,17 @@ const ResultCard: React.FC<ResultCardProps> = ({ result, imageUrl, onReset, lang
         </div>
 
         {/* Feedback Section */}
-        <div className="border-t border-gray-100 pt-6">
+        <div className="border-t border-gray-100 dark:border-gray-700 pt-6">
           {!feedbackSubmitted ? (
             <div className="space-y-4">
-              <p className="text-sm font-semibold text-gray-600 text-center">{t.feedbackQuestion}</p>
+              <p className="text-sm font-semibold text-gray-600 dark:text-gray-400 text-center">{t.feedbackQuestion}</p>
               <div className="flex justify-center gap-4">
                 <button
                   onClick={() => setFeedback('up')}
                   className={`p-3 rounded-full transition-colors border ${
                     feedback === 'up' 
-                      ? 'bg-green-100 border-green-300 text-green-700' 
-                      : 'bg-gray-50 border-gray-200 text-gray-400 hover:bg-gray-100'
+                      ? 'bg-green-100 dark:bg-green-900/30 border-green-300 dark:border-green-700 text-green-700 dark:text-green-300' 
+                      : 'bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600 text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-600'
                   }`}
                 >
                   <ThumbsUpIcon />
@@ -177,8 +177,8 @@ const ResultCard: React.FC<ResultCardProps> = ({ result, imageUrl, onReset, lang
                   onClick={() => setFeedback('down')}
                   className={`p-3 rounded-full transition-colors border ${
                     feedback === 'down' 
-                      ? 'bg-red-100 border-red-300 text-red-700' 
-                      : 'bg-gray-50 border-gray-200 text-gray-400 hover:bg-gray-100'
+                      ? 'bg-red-100 dark:bg-red-900/30 border-red-300 dark:border-red-700 text-red-700 dark:text-red-300' 
+                      : 'bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600 text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-600'
                   }`}
                 >
                   <ThumbsDownIcon />
@@ -191,7 +191,7 @@ const ResultCard: React.FC<ResultCardProps> = ({ result, imageUrl, onReset, lang
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                     placeholder={feedback === 'down' ? t.whatWentWrong : t.additionalComments}
-                    className="w-full p-3 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-[#667eea] focus:outline-none resize-none bg-gray-50 text-gray-800"
+                    className="w-full p-3 border border-gray-200 dark:border-gray-600 rounded-xl text-sm focus:ring-2 focus:ring-[#667eea] focus:outline-none resize-none bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-white"
                     rows={2}
                   />
                   <button
@@ -204,8 +204,8 @@ const ResultCard: React.FC<ResultCardProps> = ({ result, imageUrl, onReset, lang
               )}
             </div>
           ) : (
-            <div className="text-center py-4 bg-green-50 rounded-xl border border-green-100 animate-fade-in">
-              <p className="text-green-800 font-medium text-sm">{t.thankYou}</p>
+            <div className="text-center py-4 bg-green-50 dark:bg-green-900/20 rounded-xl border border-green-100 dark:border-green-800 animate-fade-in">
+              <p className="text-green-800 dark:text-green-300 font-medium text-sm">{t.thankYou}</p>
             </div>
           )}
         </div>
@@ -214,7 +214,7 @@ const ResultCard: React.FC<ResultCardProps> = ({ result, imageUrl, onReset, lang
         <div className="pt-4">
           <button 
             onClick={onReset}
-            className="w-full py-4 bg-gray-900 hover:bg-black text-white rounded-xl font-semibold shadow-lg flex items-center justify-center gap-2 transition-transform active:scale-95"
+            className="w-full py-4 bg-gray-900 hover:bg-black dark:bg-gray-700 dark:hover:bg-gray-600 text-white rounded-xl font-semibold shadow-lg flex items-center justify-center gap-2 transition-transform active:scale-95"
           >
             <RefreshCwIcon />
             {t.scanAnother}

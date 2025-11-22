@@ -9,7 +9,7 @@ import ChatInterface from './components/ChatInterface';
 import MapFinder from './components/MapFinder';
 import ImageEditor from './components/ImageEditor';
 import Dashboard from './components/Dashboard';
-import { LeafIcon, MicIcon, MessageSquareIcon, MapPinIcon, EditIcon, BrainIcon, UserIcon } from './components/Icons';
+import { LeafIcon, MicIcon, MessageSquareIcon, MapPinIcon, EditIcon, BrainIcon, UserIcon, SunIcon, MoonIcon } from './components/Icons';
 import { translations, languageNames } from './translations';
 
 const App: React.FC = () => {
@@ -21,8 +21,25 @@ const App: React.FC = () => {
   const [quickTip, setQuickTip] = useState<string>('');
   const [useDeepThinking, setUseDeepThinking] = useState(false);
   const [language, setLanguage] = useState<Language>('en');
+  const [darkMode, setDarkMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('theme') === 'dark' || 
+        (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    }
+    return true;
+  });
 
   const t = translations[language];
+
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [darkMode]);
 
   useEffect(() => {
     // Fetch fast AI tip on load and when language changes
@@ -66,15 +83,15 @@ const App: React.FC = () => {
             {appState === AppState.IDLE && (
               <div className="w-full max-w-md space-y-4">
                 <ImageUploader onImageSelect={handleImageSelect} lang={language} />
-                <div className="flex items-center justify-center gap-2 p-4 bg-white/5 rounded-xl border border-white/10">
+                <div className="flex items-center justify-center gap-2 p-4 bg-white/5 dark:bg-white/5 bg-gray-200 rounded-xl border border-gray-300 dark:border-white/10">
                   <input 
                     type="checkbox" 
                     id="thinking" 
                     checked={useDeepThinking}
                     onChange={(e) => setUseDeepThinking(e.target.checked)}
-                    className="w-5 h-5 text-[#667eea] rounded"
+                    className="w-5 h-5 text-[#667eea] rounded focus:ring-green-500"
                   />
-                  <label htmlFor="thinking" className="text-sm text-gray-300 cursor-pointer flex items-center gap-2">
+                  <label htmlFor="thinking" className="text-sm text-gray-700 dark:text-gray-300 cursor-pointer flex items-center gap-2 font-medium">
                     <BrainIcon /> {t.deepThinking}
                   </label>
                 </div>
@@ -85,9 +102,9 @@ const App: React.FC = () => {
               <ResultCard result={result} imageUrl={imageState.previewUrl} onReset={handleReset} lang={language} />
             )}
             {appState === AppState.ERROR && (
-              <div className="text-center text-red-300">
-                <p>{error}</p>
-                <button onClick={handleReset} className="mt-4 underline">Try Again</button>
+              <div className="text-center text-red-500 dark:text-red-300 bg-white/50 dark:bg-transparent p-4 rounded-xl">
+                <p className="font-medium">{error}</p>
+                <button onClick={handleReset} className="mt-4 underline hover:text-red-700 dark:hover:text-red-200">Try Again</button>
               </div>
             )}
           </div>
@@ -102,7 +119,11 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-900 via-[#1a202c] to-black text-gray-100 font-sans pb-24">
+    <div className={`min-h-screen transition-colors duration-300 font-sans pb-24 ${
+      darkMode 
+        ? 'bg-gradient-to-br from-green-900 via-[#1a202c] to-black text-gray-100' 
+        : 'bg-gradient-to-br from-green-50 via-white to-green-100 text-gray-900'
+    }`}>
       
       {/* Quick Tip Banner (Flash Lite) */}
       <div className="bg-[#667eea]/90 backdrop-blur text-white px-4 py-2 text-xs sm:text-sm text-center shadow-md z-50">
@@ -114,21 +135,30 @@ const App: React.FC = () => {
         {/* Header */}
         <header className="flex flex-col md:flex-row items-center justify-between mb-8 gap-4">
           <div className="flex items-center gap-3">
-            <div className="p-3 bg-white/10 rounded-2xl border border-white/20 shadow-lg backdrop-blur-sm text-green-400">
+            <div className="p-3 bg-white/10 dark:bg-white/10 bg-green-600 text-white dark:text-green-400 rounded-2xl border border-white/20 shadow-lg backdrop-blur-sm">
               <LeafIcon />
             </div>
             <div>
-              <h1 className="text-2xl font-bold tracking-tight text-white">{t.appTitle}</h1>
-              <p className="text-gray-400 text-sm">{t.appDesc}</p>
+              <h1 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{t.appTitle}</h1>
+              <p className="text-gray-600 dark:text-gray-400 text-sm">{t.appDesc}</p>
             </div>
           </div>
 
-          {/* Language Selector */}
-          <div className="flex items-center">
+          <div className="flex items-center gap-3">
+            {/* Theme Toggle */}
+            <button
+              onClick={() => setDarkMode(!darkMode)}
+              className="p-2 rounded-lg bg-gray-200 dark:bg-white/10 hover:bg-gray-300 dark:hover:bg-white/20 transition-colors text-gray-700 dark:text-gray-200"
+              aria-label="Toggle Dark Mode"
+            >
+              {darkMode ? <SunIcon /> : <MoonIcon />}
+            </button>
+
+            {/* Language Selector */}
             <select 
               value={language}
               onChange={(e) => setLanguage(e.target.value as Language)}
-              className="bg-white/10 text-white border border-white/20 rounded-lg px-3 py-2 text-sm outline-none focus:border-green-500"
+              className="bg-gray-200 dark:bg-white/10 text-gray-900 dark:text-white border border-gray-300 dark:border-white/20 rounded-lg px-3 py-2 text-sm outline-none focus:border-green-500"
             >
               {Object.entries(languageNames).map(([code, name]) => (
                 <option key={code} value={code} className="text-gray-900">{name}</option>
@@ -137,7 +167,7 @@ const App: React.FC = () => {
           </div>
           
           {/* Navigation Tabs (Desktop) */}
-          <nav className="hidden md:flex bg-white/10 rounded-full p-1 backdrop-blur-md border border-white/10 overflow-x-auto">
+          <nav className="hidden md:flex bg-gray-200 dark:bg-white/10 rounded-full p-1 backdrop-blur-md border border-gray-300 dark:border-white/10 overflow-x-auto">
             {[
               { id: Tab.DIAGNOSE, icon: LeafIcon, label: t.diagnose },
               { id: Tab.CHAT, icon: MessageSquareIcon, label: t.chat },
@@ -151,8 +181,8 @@ const App: React.FC = () => {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all whitespace-nowrap ${
                   activeTab === tab.id 
-                  ? 'bg-white text-green-900 shadow-sm' 
-                  : 'text-gray-300 hover:text-white hover:bg-white/5'
+                  ? 'bg-white dark:bg-gray-800 text-green-700 dark:text-green-400 shadow-sm' 
+                  : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5'
                 }`}
               >
                 <tab.icon />
@@ -168,7 +198,7 @@ const App: React.FC = () => {
         </main>
 
         {/* Mobile Navigation Bar */}
-        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-[#1a202c]/95 backdrop-blur border-t border-white/10 pb-safe z-50 overflow-x-auto no-scrollbar">
+        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-[#1a202c]/95 backdrop-blur border-t border-gray-200 dark:border-white/10 pb-safe z-50 overflow-x-auto no-scrollbar">
           <div className="flex justify-between p-2 min-w-max gap-2">
             {[
               { id: Tab.DIAGNOSE, icon: LeafIcon, label: t.diagnose },
@@ -182,7 +212,7 @@ const App: React.FC = () => {
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex flex-col items-center gap-1 p-2 rounded-xl transition-all min-w-[64px] ${
-                  activeTab === tab.id ? 'text-[#667eea]' : 'text-gray-500'
+                  activeTab === tab.id ? 'text-[#667eea]' : 'text-gray-500 dark:text-gray-400'
                 }`}
               >
                 <div className={`p-1 rounded-full ${activeTab === tab.id ? 'bg-[#667eea]/10' : ''}`}>

@@ -34,11 +34,11 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageSelect, lang }) =>
       onDrop={handleDrop}
       onDragOver={handleDragOver}
     >
-      <div className="bg-white/95 backdrop-blur rounded-2xl shadow-2xl overflow-hidden border border-white/20">
+      <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur rounded-2xl shadow-2xl overflow-hidden border border-gray-200 dark:border-white/20">
         <div className="p-8 text-center space-y-6">
           <div className="space-y-2">
-            <h2 className="text-2xl font-bold text-gray-800">{t.uploadTitle}</h2>
-            <p className="text-gray-500">{t.uploadDesc}</p>
+            <h2 className="text-2xl font-bold text-gray-800 dark:text-white">{t.uploadTitle}</h2>
+            <p className="text-gray-500 dark:text-gray-400">{t.uploadDesc}</p>
           </div>
 
           <div className="grid grid-cols-1 gap-4">
@@ -51,7 +51,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageSelect, lang }) =>
                 className="hidden" 
                 onChange={handleFileInput}
               />
-              <div className="flex items-center justify-center gap-3 w-full py-4 px-6 bg-[#667eea] hover:bg-[#5a67d8] text-white rounded-xl transition-all duration-300 transform group-active:scale-95 shadow-lg shadow-indigo-200">
+              <div className="flex items-center justify-center gap-3 w-full py-4 px-6 bg-[#667eea] hover:bg-[#5a67d8] text-white rounded-xl transition-all duration-300 transform group-active:scale-95 shadow-lg shadow-indigo-200 dark:shadow-none">
                 <CameraIcon />
                 <span className="font-semibold text-lg">{t.takePhoto}</span>
               </div>
@@ -65,7 +65,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageSelect, lang }) =>
                 className="hidden" 
                 onChange={handleFileInput}
               />
-              <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 hover:border-[#667eea] hover:bg-indigo-50 transition-all duration-300 flex flex-col items-center justify-center gap-3 text-gray-400 hover:text-[#667eea]">
+              <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-8 hover:border-[#667eea] dark:hover:border-[#667eea] hover:bg-indigo-50 dark:hover:bg-gray-700 transition-all duration-300 flex flex-col items-center justify-center gap-3 text-gray-400 dark:text-gray-500 hover:text-[#667eea] dark:hover:text-[#667eea]">
                 <UploadIcon />
                 <span className="font-medium">{t.dropImage}</span>
               </div>
@@ -73,8 +73,8 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageSelect, lang }) =>
           </div>
         </div>
         
-        <div className="bg-gray-50 p-4 text-center border-t border-gray-100">
-          <p className="text-xs text-gray-500">Supports JPG, PNG. Max 5MB.</p>
+        <div className="bg-gray-50 dark:bg-gray-900/50 p-4 text-center border-t border-gray-100 dark:border-gray-700">
+          <p className="text-xs text-gray-500 dark:text-gray-400">Supports JPG, PNG. Max 5MB.</p>
         </div>
       </div>
     </div>

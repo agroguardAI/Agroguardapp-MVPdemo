@@ -64,7 +64,7 @@ const ChatInterface: React.FC<Props> = ({ lang }) => {
   };
 
   return (
-    <div className="flex flex-col h-[600px] bg-white/95 backdrop-blur rounded-2xl shadow-2xl overflow-hidden border border-white/20 animate-slide-up">
+    <div className="flex flex-col h-[600px] bg-white/95 dark:bg-gray-800/95 backdrop-blur rounded-2xl shadow-2xl overflow-hidden border border-gray-200 dark:border-white/20 animate-slide-up">
       {/* Header */}
       <div className="p-4 bg-[#667eea] text-white flex items-center gap-2">
         <SparklesIcon />
@@ -72,18 +72,18 @@ const ChatInterface: React.FC<Props> = ({ lang }) => {
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-6 bg-gray-50">
+      <div className="flex-1 overflow-y-auto p-4 space-y-6 bg-gray-50 dark:bg-gray-900/50">
         {messages.map((msg) => (
           <div key={msg.id} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
             <div className={`max-w-[85%] p-4 rounded-2xl text-sm leading-relaxed shadow-sm ${
               msg.role === 'user' 
                 ? 'bg-[#667eea] text-white rounded-tr-none' 
-                : 'bg-white border border-gray-200 text-gray-800 rounded-tl-none'
+                : 'bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-800 dark:text-gray-100 rounded-tl-none'
             }`}>
               {msg.role === 'user' ? (
                   <p>{msg.text}</p>
               ) : (
-                  <div className="prose prose-sm max-w-none prose-indigo [&>p]:mb-2 [&>ul]:list-disc [&>ul]:pl-4 [&>ol]:list-decimal [&>ol]:pl-4 [&>pre]:bg-gray-800 [&>pre]:text-white [&>pre]:p-3 [&>pre]:rounded-lg [&>pre]:overflow-x-auto [&>code]:bg-gray-100 [&>code]:text-indigo-600 [&>code]:px-1 [&>code]:rounded">
+                  <div className="prose prose-sm max-w-none prose-indigo dark:prose-invert [&>p]:mb-2 [&>ul]:list-disc [&>ul]:pl-4 [&>ol]:list-decimal [&>ol]:pl-4 [&>pre]:bg-gray-800 [&>pre]:text-white [&>pre]:p-3 [&>pre]:rounded-lg [&>pre]:overflow-x-auto [&>code]:bg-gray-100 dark:[&>code]:bg-gray-800 [&>code]:text-indigo-600 dark:[&>code]:text-indigo-300 [&>code]:px-1 [&>code]:rounded">
                       <ReactMarkdown>{msg.text}</ReactMarkdown>
                   </div>
               )}
@@ -93,7 +93,7 @@ const ChatInterface: React.FC<Props> = ({ lang }) => {
         
         {isLoading && (
           <div className="flex justify-start animate-fade-in">
-             <div className="bg-white border border-gray-200 px-4 py-3 rounded-2xl rounded-tl-none text-xs text-gray-500 shadow-sm flex items-center gap-2">
+             <div className="bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 px-4 py-3 rounded-2xl rounded-tl-none text-xs text-gray-500 dark:text-gray-400 shadow-sm flex items-center gap-2">
                 <div className="w-2 h-2 bg-[#667eea] rounded-full animate-bounce" style={{ animationDelay: '0s' }}></div>
                 <div className="w-2 h-2 bg-[#667eea] rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                 <div className="w-2 h-2 bg-[#667eea] rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
@@ -104,13 +104,13 @@ const ChatInterface: React.FC<Props> = ({ lang }) => {
       </div>
 
       {/* Input */}
-      <form onSubmit={handleSend} className="p-4 bg-white border-t border-gray-100 flex gap-2">
+      <form onSubmit={handleSend} className="p-4 bg-white dark:bg-gray-800 border-t border-gray-100 dark:border-gray-700 flex gap-2">
         <input
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder={t.chatPlaceholder}
-          className="flex-1 px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#667eea] text-gray-800 placeholder-gray-400"
+          className="flex-1 px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#667eea] text-gray-800 dark:text-white bg-white dark:bg-gray-700 placeholder-gray-400 dark:placeholder-gray-500"
         />
         <button 
           type="submit"
